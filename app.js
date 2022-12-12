@@ -1,6 +1,8 @@
 const express = require("express");
 const logger = require("morgan");
 const cors = require("cors");
+const chalk = require("chalk");
+console.log(chalk.blue("Hello world!"));
 
 const router = require("./routes/api/contacts");
 
