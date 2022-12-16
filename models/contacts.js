@@ -4,18 +4,6 @@ const { randomUUID } = require("crypto");
 
 const contactsPath = path.join(__dirname, "./contacts.json");
 
-// const Joi = require("joi");
-// const schema = Joi.object({
-//   name: Joi.string().alphanum().min(3).max(30).required(),
-//   email: Joi.string()
-//     .email({
-//       minDomainSegments: 2,
-//       tlds: { allow: ["com", "net"] },
-//     })
-//     .required(),
-//   phone: Joi.number().required(),
-// });
-
 const listContacts = async () => {
   const data = await fs.readFile(contactsPath);
   const contacts = JSON.parse(data);
