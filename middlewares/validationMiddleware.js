@@ -18,7 +18,7 @@ module.exports = {
   },
   patchContactFavoriteValidation: (req, res, next) => {
     const schema = Joi.object({
-      favorite: Joi.boolean().required(),
+      favorite: Joi.boolean(),
     });
     const validationSchema = schema.validate(req.body);
     if (validationSchema.error) {

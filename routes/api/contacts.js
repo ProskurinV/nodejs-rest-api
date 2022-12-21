@@ -26,7 +26,7 @@ router.post("/", addContactValidation, asyncWrapper(addContact));
 router.put("/:id", addContactValidation, asyncWrapper(updateContact));
 
 router.patch(
-  "/id/favorite",
+  "/:id/favorite",
   patchContactFavoriteValidation,
   asyncWrapper(updateFavoriteStatus)
 );
