@@ -15,13 +15,15 @@ const {
   patchContactFavoriteValidation,
 } = require("../../middlewares/validationMiddleware");
 
+const { auth } = require("../../middlewares/auth");
+
 const { asyncWrapper } = require("../../helpers/apiHelpers");
 
-router.get("/", asyncWrapper(listContacts));
+router.get("/", auth, asyncWrapper(listContacts));
 
 router.get("/:id", asyncWrapper(getContactById));
 
-router.post("/", addContactValidation, asyncWrapper(addContact));
+router.post("/", auth, addContactValidation, asyncWrapper(addContact));
 
 router.put("/:id", addContactValidation, asyncWrapper(updateContact));
 

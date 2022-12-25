@@ -28,4 +28,31 @@ module.exports = {
     }
     next();
   },
+  userRegisterValidation: (req, res, next) => {
+    const schema = Joi.object({
+      password: Joi.string().required(),
+      email: Joi.string().required(),
+      subscription: Joi.string(),
+    });
+    const validationSchema = schema.validate(req.body);
+    if (validationSchema.error) {
+      return res.status(400).json({
+        status: validationSchema.error.details,
+      });
+    }
+    next();
+  },
+  userLoginValidation: (req, res, next) => {
+    const schema = Joi.object({
+      password: Joi.string().required(),
+      email: Joi.string().required(),
+    });
+    const validationSchema = schema.validate(req.body);
+    if (validationSchema.error) {
+      return res.status(400).json({
+        status: validationSchema.error.details,
+      });
+    }
+    next();
+  },
 };

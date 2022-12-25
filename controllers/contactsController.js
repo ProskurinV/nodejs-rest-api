@@ -1,8 +1,12 @@
-const { Contact } = require("../db/postModel");
+const { Contact } = require("../models/contactModel");
 
 const listContacts = async (req, res) => {
-  const contacts = await Contact.find({});
-  res.json({ contacts });
+  const { _id } = req.user;
+  const contacts = await Contact.find({ owner: _id }).populate(
+    "owner",
+    "_id email"
+  );
+  res.json(contacts);
 };
 
 const getContactById = async (req, res) => {
@@ -27,15 +31,9 @@ const removeContact = async (req, res) => {
 };
 
 const addContact = async (req, res) => {
-  const { name, email, phone, favorite } = req.body;
-
-  const contact = new Contact({ name, email, phone, favorite });
-  await contact.save();
-
-  // const contact = await Contact.create(req.body);
-  // res.json({ status: "success" }, { data: contact });
-
-  res.json({ status: "success" });
+  const { _id } = req.user;
+  const contact = await Contact.create({ ...req.body, owner: _id });
+  res.json({ status: "success", contact });
 };
 
 const updateContact = async (req, res) => {
