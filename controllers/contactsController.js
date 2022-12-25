@@ -2,10 +2,17 @@ const { Contact } = require("../models/contactModel");
 
 const listContacts = async (req, res) => {
   const { _id } = req.user;
-  const contacts = await Contact.find({ owner: _id }).populate(
-    "owner",
-    "_id email"
-  );
+
+  const { page = 1, limit = 20, favorite } = req.query;
+  const skip = (page - 1) * limit;
+  const contacts = await Contact.find(
+    { owner: _id, favorite },
+    { __v: 0 },
+    {
+      skip,
+      limit: Number(limit),
+    }
+  ).populate("owner", "_id email");
   res.json(contacts);
 };
 
@@ -14,7 +21,7 @@ const getContactById = async (req, res) => {
   const contact = await Contact.findById(id);
 
   if (!contact) {
-    return res.status(400).json({
+    res.status(400).json({
       status: "No contact found",
     });
   }
@@ -52,7 +59,7 @@ const updateFavoriteStatus = async (req, res) => {
   const { id } = req.params;
   const { favorite } = req.body;
 
-  if (!favorite) {
+  if (!req.body) {
     return res.status(400).json({
       status: "missing field favorite",
     });

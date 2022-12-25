@@ -28,11 +28,23 @@ module.exports = {
     }
     next();
   },
+  patchUpdateSubscValidation: (req, res, next) => {
+    const schema = Joi.object({
+      subscription: Joi.string().valid("starter", "pro", "business").required(),
+    });
+    const validationSchema = schema.validate(req.body);
+    if (validationSchema.error) {
+      return res.status(400).json({
+        status: validationSchema.error.details,
+      });
+    }
+    next();
+  },
   userRegisterValidation: (req, res, next) => {
     const schema = Joi.object({
       password: Joi.string().required(),
       email: Joi.string().required(),
-      subscription: Joi.string(),
+      subscription: Joi.string().valid("starter", "pro", "business"),
     });
     const validationSchema = schema.validate(req.body);
     if (validationSchema.error) {
