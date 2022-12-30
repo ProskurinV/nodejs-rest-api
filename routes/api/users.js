@@ -5,7 +5,6 @@ const {
   userRegisterValidation,
   userLoginValidation,
   patchUpdateSubscValidation,
-  // patchUpdateAvatarValidation,
 } = require("../../middlewares/validationMiddleware");
 
 const { auth } = require("../../middlewares/auth");
@@ -19,6 +18,7 @@ const { logout } = require("../../controllers/logout");
 const { updateSubsc } = require("../../controllers/updateSubsc");
 const { updateAvatar } = require("../../controllers/updateAvatar");
 const { verifyEmail } = require("../../controllers/verifyEmail");
+const { verifyEmailAgain } = require("../../controllers/verifyEmailAgain");
 
 router.post("/signup", userRegisterValidation, asyncWrapper(signup));
 
@@ -28,13 +28,15 @@ router.get("/logout", auth, asyncWrapper(logout));
 
 router.get("/verify/:verificationToken", asyncWrapper(verifyEmail));
 
+router.post("/verify", asyncWrapper(verifyEmailAgain));
+
 router.patch("/", auth, patchUpdateSubscValidation, asyncWrapper(updateSubsc));
 
 router.patch(
   "/avatars",
   auth,
   upload.single("avatar"),
-  // patchUpdateAvatarValidation,
+
   asyncWrapper(updateAvatar)
 );
 
