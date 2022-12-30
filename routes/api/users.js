@@ -18,12 +18,15 @@ const { login } = require("../../controllers/login");
 const { logout } = require("../../controllers/logout");
 const { updateSubsc } = require("../../controllers/updateSubsc");
 const { updateAvatar } = require("../../controllers/updateAvatar");
+const { verifyEmail } = require("../../controllers/verifyEmail");
 
 router.post("/signup", userRegisterValidation, asyncWrapper(signup));
 
 router.post("/login", userLoginValidation, asyncWrapper(login));
 
 router.get("/logout", auth, asyncWrapper(logout));
+
+router.get("/verify/:verificationToken", asyncWrapper(verifyEmail));
 
 router.patch("/", auth, patchUpdateSubscValidation, asyncWrapper(updateSubsc));
 
